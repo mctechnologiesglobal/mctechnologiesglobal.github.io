@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chính sách bảo mật — Emoji Battery Maker</title>
+<meta name="description" content="Chính sách bảo mật của ứng dụng Emoji Battery Maker.">
+<link rel="stylesheet" href="legal.css">
+<script>
+  // Dat lop truoc khi ve, de khong nhay mot nhip tieng Viet roi moi doi sang tieng Anh.
+  try {
+    var l = localStorage.getItem('lang');
+    if (!l) l = (navigator.language || '').toLowerCase().indexOf('vi') === 0 ? 'vi' : 'en';
+    if (l === 'en') document.documentElement.className = 'lang-en';
+  } catch (e) {}
+</script>
+</head>
+<body>
+<div class="wrap">
+
+<div class="langbar">
+  <button type="button" data-set="vi">Tiếng Việt</button>
+  <button type="button" data-set="en">English</button>
+</div>
+
+<!-- ==================== TIẾNG VIỆT ==================== -->
+<div data-lang="vi">
+
+<header>
+  <h1>Chính sách bảo mật</h1>
+  <p class="sub">Emoji Battery Maker · Cập nhật lần cuối: 9 tháng 9, 2026</p>
+</header>
+
+<div class="lede">
+  <p><strong>Ứng dụng này không có tài khoản, không đăng nhập, và không hỏi tên, email hay số điện thoại của bạn.</strong></p>
+  <p>Ứng dụng dùng quyền Trợ năng để vẽ icon pin lên thanh trạng thái. <strong>Nó không đọc nội dung màn hình của bạn</strong> — mục 1 giải thích điều này bằng cấu hình cụ thể, không phải bằng một lời hứa.</p>
+  <p>Thiết lập và ảnh của bạn nằm trên máy bạn. Chỉ có hai nơi nhận dữ liệu: Google (quảng cáo và đo lường, sau khi bạn đồng ý), và máy chủ nội dung của chúng tôi — nơi này chỉ nhận một yêu cầu khi bạn tự bấm nút cập nhật.</p>
+</div>
+
+<p><strong>Bên chịu trách nhiệm dữ liệu:</strong> cá nhân phát hành ứng dụng Emoji Battery Maker.
+Liên hệ: <a href="mailto:mctechnologies.global@gmail.com">mctechnologies.global@gmail.com</a></p>
+
+<div class="toc">
+<ol>
+  <li><a href="#a11y">Quyền Trợ năng</a></li>
+  <li><a href="#local">Dữ liệu nằm trên máy bạn</a></li>
+  <li><a href="#photos">Ảnh của bạn</a></li>
+  <li><a href="#battery">Mức pin</a></li>
+  <li><a href="#third">Những gì rời khỏi máy bạn, và đi tới ai</a></li>
+  <li><a href="#events">Danh sách đầy đủ các sự kiện đo lường</a></li>
+  <li><a href="#ids">Ba mã định danh, và cách xoá từng cái</a></li>
+  <li><a href="#consent">Đồng thuận và cơ sở pháp lý</a></li>
+  <li><a href="#rights">Quyền của bạn, và cách dùng</a></li>
+  <li><a href="#children">Trẻ em</a></li>
+  <li><a href="#retention">Lưu giữ dữ liệu</a></li>
+  <li><a href="#security">Bảo mật</a></li>
+  <li><a href="#changes">Thay đổi chính sách</a></li>
+  <li><a href="#contact">Liên hệ</a></li>
+</ol>
+</div>
+
+<h2 id="a11y">1. Quyền Trợ năng</h2>
+
+<p>Thanh trạng thái thuộc về hệ điều hành. Trên Android, <strong>chỉ</strong> một Accessibility Service được phép tạo cửa sổ loại <code>TYPE_ACCESSIBILITY_OVERLAY</code> — loại cửa sổ duy nhất có thể nằm bên trên thanh trạng thái của hệ thống. Đó là lý do duy nhất ứng dụng này xin quyền Trợ năng.</p>
+
+<p>Không cấp quyền đó thì tính năng chính không hoạt động, nhưng các phần khác — widget pin và việc xuất ảnh — vẫn dùng được bình thường.</p>
+
+<h3>Service này được cấu hình để làm gì, và không làm gì</h3>
+<ul>
+  <li><strong>Không đọc nội dung màn hình.</strong> Trong tệp cấu hình của service, <code>canRetrieveWindowContent</code> được đặt <code>false</code>. Đây không phải một lời hứa suông: đó là một thiết lập do Android thi hành — hệ điều hành không giao nội dung cửa sổ cho service, kể cả khi ứng dụng muốn.</li>
+  <li><strong>Chỉ nhận một loại sự kiện:</strong> <code>typeWindowStateChanged</code>, nghĩa là "cửa sổ đang ở trước vừa thay đổi". Thông tin duy nhất ứng dụng đọc từ sự kiện đó là <strong>tên gói</strong> của ứng dụng đang mở.</li>
+  <li><strong>Không chụp ảnh màn hình.</strong> Ứng dụng không khai quyền <code>canTakeScreenshot</code>. Ảnh mà bạn xuất ra là do ứng dụng tự vẽ lại thanh pin, không phải ảnh chụp màn hình của bạn.</li>
+  <li><strong>Không bấm, không nhập, không điều khiển</strong> thay bạn ở bất cứ đâu.</li>
+</ul>
+
+<h3>Tên gói đó được dùng làm gì</h3>
+<p>Nó được so với danh sách "ẩn trang trí khi đang ở trong những ứng dụng này", rồi bỏ đi. Nó không được ghi vào bộ nhớ lâu dài, không vào bản ghi lỗi, và không được gửi ra khỏi máy.</p>
+
+<p>Bạn tắt quyền này bất cứ lúc nào: <strong>Cài đặt → Trợ năng → Emoji Battery Maker</strong>.</p>
+
+<h2 id="local">2. Dữ liệu nằm trên máy bạn</h2>
+
+<p>Những mục dưới đây được lưu trong vùng riêng của ứng dụng trên máy bạn. <strong>Không mục nào được gửi tới chúng tôi</strong> — chúng tôi không có máy chủ nào giữ dữ liệu người dùng.</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Lưu gì</th><th>Là gì</th></tr></thead>
+<tbody>
+<tr><td>Thiết lập &amp; bộ đã lưu</td><td>Icon, chủ đề, sticker, pet, hiệu ứng sạc, hình khuyết mà bạn chọn</td></tr>
+<tr><td>Ảnh nền thanh</td><td>Bản đã cắt của tấm ảnh bạn chọn</td></tr>
+<tr><td>Icon dùng gần đây</td><td>Tối đa 20 mục, để bạn tìm lại nhanh</td></tr>
+<tr><td>Trạng thái quảng cáo</td><td>Số lần đã hiện và thời điểm, hạn của "Mở tất cả 24 giờ", các mục bạn đã mở bằng quảng cáo có thưởng</td></tr>
+<tr><td>Đệm nội dung</td><td>Các tệp danh mục tải từ máy chủ nội dung, kèm ETag để lần sau không tải lại</td></tr>
+<tr><td>Danh sách ẩn trang trí</td><td>Tên gói của những ứng dụng bạn đã bật trong <em>Cài đặt → Trang trí → Ẩn trang trí trong ứng dụng</em> — chỉ những mục bạn bật, không phải cả danh sách ứng dụng</td></tr>
+<tr><td>Lựa chọn đồng thuận</td><td>Chuỗi đồng thuận theo chuẩn IAB TCF, do màn hình đồng thuận của Google ghi vào</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="note">
+<p><strong>Sao lưu.</strong> Ứng dụng cho phép sao lưu, nên Android có thể đưa các thiết lập trên vào bản sao lưu của <strong>máy bạn</strong>, theo cài đặt sao lưu mà bạn chọn trên Android. Bản sao lưu đó nằm trong tài khoản Google của bạn và do bạn kiểm soát, không phải của chúng tôi.</p>
+</div>
+
+<h3>Danh sách ứng dụng trên máy bạn</h3>
+
+<p>Ứng dụng có một tính năng để bạn tắt trang trí trong những ứng dụng nhất định — ví dụ khi đang chơi game hay quay phim. Để bày ra cho bạn chọn, ứng dụng cần đọc danh sách ứng dụng trên máy. Ba điều về việc đọc này:</p>
+
+<ul>
+  <li><strong>Chỉ đọc khi bạn mở đúng màn hình đó.</strong> Không đọc lúc khởi động, không đọc ngầm ở nền.</li>
+  <li><strong>Chỉ thấy những ứng dụng bạn mở được</strong> — tức những ứng dụng có biểu tượng để bấm vào. Ứng dụng khai quyền hẹp nhất mà Android cho phép cho việc này, và <strong>không xin</strong> <code>QUERY_ALL_PACKAGES</code> — quyền cho phép thấy <em>mọi</em> gói trên máy, kể cả những gói bạn không mở được. Một ứng dụng trang trí không có lý do gì cần đến nó.</li>
+  <li><strong>Đọc ra, hiện lên, rồi bỏ.</strong> Cả danh sách không được lưu và không được gửi đi đâu. Thứ duy nhất được lưu là <strong>những mục bạn tự bật</strong>.</li>
+</ul>
+
+<p>Câu này cũng được ghi ngay trên chính màn hình đó, không chỉ ở đây.</p>
+
+<h2 id="photos">3. Ảnh của bạn</h2>
+
+<ul>
+  <li>Ứng dụng dùng <strong>bộ chọn ảnh của hệ thống</strong>. Vì thế ứng dụng <strong>không xin và không có</strong> quyền đọc thư viện ảnh: nó chỉ nhìn thấy đúng tấm ảnh bạn chọn, và không thấy gì khác trong thư viện.</li>
+  <li>Ảnh được giải mã, cắt, rồi lưu trong vùng riêng của ứng dụng trên máy bạn. <strong>Không tấm ảnh nào được tải lên bất cứ đâu.</strong></li>
+  <li>Khi bạn lưu ảnh thanh pin, ứng dụng ghi tệp vào thư viện của bạn. Việc này cũng không cần quyền, và tệp đó thuộc về bạn.</li>
+</ul>
+
+<h2 id="battery">4. Mức pin</h2>
+
+<p>Ứng dụng đọc phần trăm pin và trạng thái sạc từ hệ điều hành, để biết phải vẽ gì. Thông tin này không được gửi đi đâu.</p>
+
+<p>Riêng tính năng "Battery Troll" hiển thị một phần trăm <strong>giả</strong> do chính bạn đặt. Nó chỉ để cho vui và không phản ánh pin thật của máy — đừng dựa vào nó.</p>
+
+<h2 id="third">5. Những gì rời khỏi máy bạn, và đi tới ai</h2>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Bên nhận</th><th>Nhận gì</th><th>Để làm gì</th><th>Khi nào</th></tr></thead>
+<tbody>
+<tr>
+  <td>Google AdMob</td>
+  <td>Advertising ID, địa chỉ IP, thông tin thiết bị ở mức chung, tương tác của bạn với quảng cáo</td>
+  <td>Hiển thị quảng cáo, chống gian lận, đo hiệu quả</td>
+  <td>Sau khi bạn trả lời màn hình đồng thuận</td>
+</tr>
+<tr>
+  <td>Google Analytics for Firebase</td>
+  <td>App Instance ID, các sự kiện liệt kê ở mục 6, địa chỉ IP</td>
+  <td>Biết chỗ nào trong ứng dụng bị lỗi hoặc bị bỏ giữa đường</td>
+  <td>Chỉ sau khi bạn đồng ý</td>
+</tr>
+<tr>
+  <td>Firebase Remote Config</td>
+  <td>Installation ID</td>
+  <td>Đổi vài con số như tần suất quảng cáo và hạn mức, mà không cần bạn cập nhật ứng dụng</td>
+  <td>Chỉ sau khi bạn đồng ý</td>
+</tr>
+<tr>
+  <td>Máy chủ nội dung của chúng tôi</td>
+  <td>Địa chỉ IP, User-Agent</td>
+  <td>Tải gói nội dung mới</td>
+  <td><strong>Chỉ khi bạn tự bấm "Cập nhật từ CDN"</strong> trong Cài đặt</td>
+</tr>
+<tr>
+  <td>Google Play</td>
+  <td>Thông tin thanh toán</td>
+  <td>Xử lý giao dịch nếu bạn mua</td>
+  <td>Chỉ khi bạn mua</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3>Thứ tự — điều này quan trọng</h3>
+<p>Đo lường bị <strong>tắt</strong> ngay trong tệp cấu hình của ứng dụng, và chỉ được bật sau khi màn hình đồng thuận của Google trả về kết quả. Remote Config chỉ gọi mạng khi bạn <strong>đã đồng ý</strong>. Nếu bạn từ chối, cả hai không chạy — và ứng dụng vẫn dùng được đầy đủ, chỉ chạy bằng các giá trị mặc định.</p>
+
+<h3>Chúng tôi không nhận gì</h3>
+<p>Chúng tôi không có máy chủ nhận dữ liệu người dùng. Chúng tôi chỉ xem những báo cáo <strong>tổng hợp</strong> mà Google cung cấp — không truy cập được dữ liệu của một người cụ thể. Chúng tôi <strong>không bán</strong> dữ liệu, không chia sẻ với môi giới dữ liệu, và không có mạng quảng cáo nào khác trong ứng dụng.</p>
+
+<p>Cách Google xử lý dữ liệu này:
+<a href="https://policies.google.com/privacy">Chính sách bảo mật của Google</a> ·
+<a href="https://policies.google.com/technologies/ads">Google và quảng cáo</a> ·
+<a href="https://firebase.google.com/support/privacy">Quyền riêng tư và bảo mật trong Firebase</a></p>
+
+<h2 id="events">6. Danh sách đầy đủ các sự kiện đo lường</h2>
+
+<p>Đây là <strong>toàn bộ</strong> danh sách sự kiện mà ứng dụng gửi. Trong mã nguồn, tên sự kiện là một danh sách cố định chứ không phải những chuỗi rải rác khắp nơi — nên danh sách này kiểm chứng được, thay vì chỉ để bạn tin.</p>
+
+<ul class="chips">
+<li>onboard_start</li><li>a11y_guide_shown</li><li>a11y_granted</li>
+<li>look_applied</li><li>look_saved</li><li>photo_saved</li>
+<li>reward_offered</li><li>reward_earned</li><li>reward_unavailable</li>
+<li>limit_hit</li><li>daypass_started</li><li>premium_viewed</li>
+</ul>
+
+<p>Chỉ hai tham số được gửi kèm: <code data-param>kind</code> (loại hạn mức bạn vừa chạm) và <code data-param>placement</code> (vị trí quảng cáo). Cả hai đều là tên của một lựa chọn có sẵn trong ứng dụng.</p>
+
+<p><strong>Không sự kiện nào mang nội dung do bạn tạo ra</strong> — không tên bộ bạn tự đặt, không đường dẫn tệp, không nội dung bạn nhập. Hàm ghi sự kiện chỉ nhận đúng hai tham số kể trên và không nhận chuỗi tự do, nên điều này bị ngăn bởi chính kiểu dữ liệu của mã nguồn, không phải bởi một quy ước có thể quên.</p>
+
+<p>Ngoài danh sách trên, Google Analytics for Firebase tự thu thập một số sự kiện chung — chẳng hạn lần mở đầu tiên, bắt đầu phiên, cập nhật ứng dụng, và màn hình đang xem. Danh sách đó do Google định nghĩa:
+<a href="https://firebase.google.com/docs/analytics/automatic-events">các sự kiện Google tự thu thập</a>.</p>
+
+<h2 id="ids">7. Ba mã định danh, và cách xoá từng cái</h2>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Mã</th><th>Dùng để</th><th>Bạn xoá bằng cách</th></tr></thead>
+<tbody>
+<tr>
+  <td>Advertising ID</td>
+  <td>Quảng cáo</td>
+  <td>Cài đặt Android → Google → Quảng cáo → đặt lại hoặc xoá</td>
+</tr>
+<tr>
+  <td>App Instance ID</td>
+  <td>Nối các sự kiện đo lường của cùng một bản cài</td>
+  <td>Ứng dụng <strong>tự đặt lại</strong> khi bạn rút đồng thuận; hoặc xoá dữ liệu ứng dụng</td>
+</tr>
+<tr>
+  <td>Installation ID</td>
+  <td>Nhận cấu hình từ Remote Config</td>
+  <td>Mất khi bạn xoá dữ liệu ứng dụng hoặc gỡ ứng dụng</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<p>Ba mã này <strong>khác nhau</strong>. Đặt lại advertising ID <strong>không</strong> đặt lại hai mã còn lại — đó chính là lý do chúng được ghi riêng ở đây thay vì gộp thành một dòng.</p>
+
+<p>Không mã nào trong ba mã trên là số IMEI, số serial, địa chỉ MAC, hay bất kỳ định danh cố định nào của máy. Ứng dụng không đọc những thứ đó.</p>
+
+<h2 id="consent">8. Đồng thuận và cơ sở pháp lý</h2>
+
+<p>Tại Khu vực Kinh tế Châu Âu, Vương quốc Anh và Thuỵ Sĩ, ứng dụng hiển thị màn hình đồng thuận của Google <strong>trước</strong> khi gọi quảng cáo hoặc bật đo lường. Cơ sở pháp lý ở đây là <strong>sự đồng ý</strong> của bạn, và bạn rút lại được bất cứ lúc nào — xem mục 9.</p>
+
+<p>Ở các vùng khác, cơ sở pháp lý là:</p>
+<ul>
+  <li><strong>Thực hiện dịch vụ</strong> — cho những gì cần để ứng dụng chạy: thiết lập lưu trên máy, hiển thị trang trí bạn đã chọn.</li>
+  <li><strong>Lợi ích chính đáng</strong> — cho việc đo lường ở mức tổng hợp nhằm tìm và sửa lỗi, và cho việc chống gian lận quảng cáo.</li>
+  <li><strong>Sự đồng ý</strong> — cho quảng cáo cá nhân hoá, ở những nơi luật yêu cầu.</li>
+</ul>
+
+<p>Với người dùng tại Việt Nam, chúng tôi xử lý dữ liệu cá nhân theo <strong>Nghị định 13/2023/NĐ-CP</strong> về bảo vệ dữ liệu cá nhân.</p>
+
+<h2 id="rights">9. Quyền của bạn, và cách dùng</h2>
+
+<ul>
+  <li><strong>Rút đồng thuận.</strong> Trong ứng dụng: <strong>Cài đặt → Quyền riêng tư → Cài đặt quảng cáo</strong>. Hạng mục này hiện ở những vùng cần đến nó. Khi bạn rút, ứng dụng làm ba việc: ngừng thu thập, nói cho Google biết là không được dùng dữ liệu, <strong>và đặt lại App Instance ID</strong> — nên những gì đã gửi trước đó không còn đường nối lại với máy của bạn.</li>
+  <li><strong>Tắt quảng cáo cá nhân hoá mà vẫn dùng ứng dụng.</strong> Cài đặt Android → Google → Quảng cáo. Bạn vẫn thấy quảng cáo, nhưng là quảng cáo không cá nhân hoá.</li>
+  <li><strong>Xoá toàn bộ dữ liệu trên máy.</strong> Cài đặt Android → Ứng dụng → Emoji Battery Maker → Bộ nhớ → Xoá dữ liệu. Hoặc gỡ ứng dụng.</li>
+  <li><strong>Truy cập, sửa, xoá, phản đối, hoặc mang dữ liệu đi.</strong> Viết cho chúng tôi ở địa chỉ tại mục 14. Vì ứng dụng không có tài khoản, thường chúng tôi không có cách nào tự tìm ra dữ liệu của riêng bạn — nếu bạn muốn chúng tôi liên hệ Google thay bạn, hãy kèm advertising ID hoặc App Instance ID của bạn.</li>
+  <li><strong>Khiếu nại.</strong> Bạn có quyền khiếu nại với cơ quan bảo vệ dữ liệu tại nơi bạn sinh sống.</li>
+</ul>
+
+<p>Chúng tôi trả lời trong vòng 30 ngày.</p>
+
+<h2 id="children">10. Trẻ em</h2>
+
+<p>Ứng dụng không dành cho người dưới 13 tuổi, và không được thiết kế hay tiếp thị hướng tới trẻ em. Tại Khu vực Kinh tế Châu Âu, nếu bạn chưa đủ tuổi đồng thuận số theo luật nước bạn (13 đến 16 tuỳ nước), hãy dùng ứng dụng với sự đồng ý của người có quyền giám hộ.</p>
+
+<p>Chúng tôi không cố ý thu thập dữ liệu của trẻ em. Nếu bạn cho rằng chúng tôi đã làm vậy, hãy viết cho chúng tôi và chúng tôi sẽ xoá.</p>
+
+<h2 id="retention">11. Lưu giữ dữ liệu</h2>
+
+<ul>
+  <li><strong>Trên máy bạn:</strong> giữ đến khi bạn xoá dữ liệu ứng dụng hoặc gỡ ứng dụng.</li>
+  <li><strong>Ở Google:</strong> theo thời hạn lưu giữ của Google Analytics và Google Ads. Bạn xem và yêu cầu xoá qua các liên kết ở mục 5.</li>
+  <li><strong>Ở chúng tôi:</strong> không có gì, ngoài các email bạn gửi cho chúng tôi — chúng tôi giữ chúng cho đến khi giải quyết xong yêu cầu của bạn.</li>
+</ul>
+
+<h2 id="security">12. Bảo mật</h2>
+
+<ul>
+  <li>Mọi kết nối ra ngoài đều dùng HTTPS. Ứng dụng chặn kết nối không mã hoá bằng cấu hình bảo mật mạng của Android; ngoại lệ duy nhất là các địa chỉ nội bộ của chính máy, dùng khi phát triển — những địa chỉ đó không rời khỏi máy.</li>
+  <li>Chúng tôi không giữ dữ liệu người dùng trên máy chủ nào, nên không có kho dữ liệu nào của chúng tôi có thể bị rò rỉ.</li>
+  <li>Ảnh và thiết lập của bạn nằm trong vùng riêng của ứng dụng, các ứng dụng khác không đọc được.</li>
+</ul>
+
+<h2 id="changes">13. Thay đổi chính sách</h2>
+
+<p>Chúng tôi cập nhật trang này khi ứng dụng thay đổi. Ngày ở đầu trang là ngày sửa gần nhất.</p>
+
+<p>Nếu có thay đổi <strong>mở rộng</strong> những gì được thu thập, chúng tôi sẽ hỏi lại đồng thuận trong ứng dụng, chứ không chỉ sửa trang này rồi coi như bạn đã đồng ý.</p>
+
+<h2 id="contact">14. Liên hệ</h2>
+
+<p>Emoji Battery Maker — cá nhân phát hành<br>
+<a href="mailto:mctechnologies.global@gmail.com">mctechnologies.global@gmail.com</a></p>
+
+<p><a href="terms.html">Điều khoản sử dụng →</a></p>
+
+</div>
+
+<!-- ==================== ENGLISH ==================== -->
+<div data-lang="en">
+
+<header>
+  <h1>Privacy Policy</h1>
+  <p class="sub">Emoji Battery Maker · Last updated: 9 September 2026</p>
+</header>
+
+<div class="lede">
+  <p><strong>This app has no accounts, no sign-in, and never asks for your name, email or phone number.</strong></p>
+  <p>The app uses the Accessibility permission to draw a battery icon on your status bar. <strong>It does not read your screen contents</strong> — section 1 explains this with the actual configuration, not with a promise.</p>
+  <p>Your settings and photos stay on your device. Only two parties receive any data: Google (ads and measurement, after you consent), and our content server — which receives a single request only when you tap the update button yourself.</p>
+</div>
+
+<p><strong>Data controller:</strong> the individual publisher of Emoji Battery Maker.
+Contact: <a href="mailto:mctechnologies.global@gmail.com">mctechnologies.global@gmail.com</a></p>
+
+<h2>1. The Accessibility permission</h2>
+
+<p>The status bar belongs to the operating system. On Android, <strong>only</strong> an Accessibility Service may create a <code>TYPE_ACCESSIBILITY_OVERLAY</code> window — the one window type that can sit above the system status bar. That is the only reason this app requests the Accessibility permission.</p>
+
+<p>If you decline it, the main feature will not work, but the rest — the battery widget and image export — works normally.</p>
+
+<h3>What the service is configured to do, and not do</h3>
+<ul>
+  <li><strong>It does not read screen contents.</strong> In the service's configuration file, <code>canRetrieveWindowContent</code> is set to <code>false</code>. This is not a promise: it is a setting Android enforces — the operating system does not hand window contents to the service, even if the app asked.</li>
+  <li><strong>It receives one event type only:</strong> <code>typeWindowStateChanged</code>, meaning "the foreground window just changed". The only piece of information the app reads from that event is the <strong>package name</strong> of the app in the foreground.</li>
+  <li><strong>It does not take screenshots.</strong> The app does not declare <code>canTakeScreenshot</code>. The images you export are drawn by the app itself, not captured from your screen.</li>
+  <li><strong>It does not tap, type, or act</strong> on your behalf anywhere.</li>
+</ul>
+
+<h3>What that package name is used for</h3>
+<p>It is compared against your list of "hide the decoration while I'm in these apps", then discarded. It is not written to persistent storage, not written to logs, and never sent off the device.</p>
+
+<p>You can turn this permission off at any time: <strong>Settings → Accessibility → Emoji Battery Maker</strong>.</p>
+
+<h2>2. Data that stays on your device</h2>
+
+<p>The items below are stored in the app's private area on your device. <strong>None of it is sent to us</strong> — we operate no server that holds user data.</p>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Stored</th><th>What it is</th></tr></thead>
+<tbody>
+<tr><td>Settings &amp; saved looks</td><td>The icon, theme, stickers, pets, charging effects and notch shapes you chose</td></tr>
+<tr><td>Status bar background photo</td><td>The cropped version of the photo you picked</td></tr>
+<tr><td>Recently used icons</td><td>Up to 20, so you can find them again</td></tr>
+<tr><td>Ad state</td><td>How many ads were shown and when, when your 24-hour pass expires, which items you unlocked by watching a rewarded ad</td></tr>
+<tr><td>Content cache</td><td>Catalogue files downloaded from the content server, with ETags so they aren't downloaded twice</td></tr>
+<tr><td>Hidden-apps list</td><td>The package names of the apps you switched on in <em>Settings → Decoration → Hide decoration in apps</em> — only the ones you switched on, not the whole list of your apps</td></tr>
+<tr><td>Consent choices</td><td>The IAB TCF consent string, written by Google's consent screen</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="note">
+<p><strong>Backup.</strong> The app allows backup, so Android may include the settings above in <strong>your device's</strong> backup, according to the backup settings you chose on Android. That backup lives in your Google account and is under your control, not ours.</p>
+</div>
+
+<h3>The list of apps on your device</h3>
+
+<p>The app has a feature that lets you turn the decoration off inside particular apps — while gaming or recording video, for instance. To offer you that choice, the app needs to read the list of apps on your device. Three things about that read:</p>
+
+<ul>
+  <li><strong>It happens only when you open that screen.</strong> Not at startup, and never quietly in the background.</li>
+  <li><strong>It sees only apps you can open</strong> — the ones with an icon you can tap. The app declares the narrowest permission Android offers for this and <strong>does not request</strong> <code>QUERY_ALL_PACKAGES</code>, the permission that reveals <em>every</em> package on a device, including ones you cannot open. A decoration app has no business needing that.</li>
+  <li><strong>Read, displayed, discarded.</strong> The list itself is neither stored nor transmitted. The only thing saved is <strong>the entries you switch on</strong>.</li>
+</ul>
+
+<p>This is also stated on that screen itself, not only here.</p>
+
+<h2>3. Your photos</h2>
+
+<ul>
+  <li>The app uses the <strong>system photo picker</strong>. Because of that, the app <strong>neither requests nor holds</strong> permission to read your photo library: it sees exactly the one image you picked, and nothing else in your library.</li>
+  <li>The image is decoded, cropped, and stored in the app's private area on your device. <strong>No photo is uploaded anywhere.</strong></li>
+  <li>When you save a status bar image, the app writes the file into your gallery. That also requires no permission, and the file is yours.</li>
+</ul>
+
+<h2>4. Battery level</h2>
+
+<p>The app reads the battery percentage and charging state from the operating system, so it knows what to draw. This information is not sent anywhere.</p>
+
+<p>The "Battery Troll" feature displays a <strong>fake</strong> percentage that you set yourself. It is for fun only and does not reflect your real battery — do not rely on it.</p>
+
+<h2>5. What leaves your device, and where it goes</h2>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Recipient</th><th>Receives</th><th>Purpose</th><th>When</th></tr></thead>
+<tbody>
+<tr>
+  <td>Google AdMob</td>
+  <td>Advertising ID, IP address, coarse device information, your interactions with ads</td>
+  <td>Serving ads, fraud prevention, measuring performance</td>
+  <td>After you answer the consent screen</td>
+</tr>
+<tr>
+  <td>Google Analytics for Firebase</td>
+  <td>App Instance ID, the events listed in section 6, IP address</td>
+  <td>Finding where the app breaks or where people give up</td>
+  <td>Only after you consent</td>
+</tr>
+<tr>
+  <td>Firebase Remote Config</td>
+  <td>Installation ID</td>
+  <td>Adjusting numbers such as ad frequency and limits without making you update the app</td>
+  <td>Only after you consent</td>
+</tr>
+<tr>
+  <td>Our content server</td>
+  <td>IP address, User-Agent</td>
+  <td>Downloading new content packs</td>
+  <td><strong>Only when you tap "Update from CDN"</strong> in Settings</td>
+</tr>
+<tr>
+  <td>Google Play</td>
+  <td>Payment details</td>
+  <td>Processing the transaction if you buy something</td>
+  <td>Only if you buy</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<h3>The ordering matters</h3>
+<p>Measurement is <strong>disabled</strong> in the app's own configuration file, and is only switched on after Google's consent screen returns an answer. Remote Config only makes a network call once you <strong>have consented</strong>. If you decline, neither runs — and the app still works fully, just with its default values.</p>
+
+<h3>We receive nothing</h3>
+<p>We operate no server that receives user data. We only see the <strong>aggregate</strong> reports Google provides; we cannot access any individual person's data. We <strong>do not sell</strong> data, do not share it with data brokers, and there is no other ad network in the app.</p>
+
+<p>How Google handles this data:
+<a href="https://policies.google.com/privacy">Google Privacy Policy</a> ·
+<a href="https://policies.google.com/technologies/ads">How Google uses data for advertising</a> ·
+<a href="https://firebase.google.com/support/privacy">Privacy and Security in Firebase</a></p>
+
+<h2>6. The complete list of measurement events</h2>
+
+<p>This is the <strong>entire</strong> list of events the app sends. In the source code, event names are a fixed list rather than strings scattered across the codebase — so this list is verifiable rather than merely asserted.</p>
+
+<ul class="chips">
+<li>onboard_start</li><li>a11y_guide_shown</li><li>a11y_granted</li>
+<li>look_applied</li><li>look_saved</li><li>photo_saved</li>
+<li>reward_offered</li><li>reward_earned</li><li>reward_unavailable</li>
+<li>limit_hit</li><li>daypass_started</li><li>premium_viewed</li>
+</ul>
+
+<p>Only two parameters are ever attached: <code data-param>kind</code> (which limit you just hit) and <code data-param>placement</code> (which ad slot). Both are the name of a choice that already exists inside the app.</p>
+
+<p><strong>No event carries content you created</strong> — not the names you give your saved looks, not file paths, not text you typed. The event-logging function accepts only those two parameters and does not accept free-form strings, so this is prevented by the code's type system rather than by a convention someone could forget.</p>
+
+<p>In addition to the list above, Google Analytics for Firebase collects some general events on its own — for example first open, session start, app update, and the current screen. That list is defined by Google:
+<a href="https://firebase.google.com/docs/analytics/automatic-events">events Google collects automatically</a>.</p>
+
+<h2>7. Three identifiers, and how to clear each one</h2>
+
+<div class="scroll">
+<table>
+<thead><tr><th>Identifier</th><th>Used for</th><th>You clear it by</th></tr></thead>
+<tbody>
+<tr>
+  <td>Advertising ID</td>
+  <td>Advertising</td>
+  <td>Android Settings → Google → Ads → reset or delete</td>
+</tr>
+<tr>
+  <td>App Instance ID</td>
+  <td>Linking measurement events from the same installation</td>
+  <td>The app <strong>resets it itself</strong> when you withdraw consent; or clear app data</td>
+</tr>
+<tr>
+  <td>Installation ID</td>
+  <td>Receiving configuration from Remote Config</td>
+  <td>Gone when you clear app data or uninstall</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<p>These three are <strong>different</strong>. Resetting your advertising ID does <strong>not</strong> reset the other two — which is exactly why they are listed separately here instead of collapsed into one line.</p>
+
+<p>None of the three is an IMEI, serial number, MAC address, or any other permanent device identifier. The app does not read those.</p>
+
+<h2>8. Consent and legal bases</h2>
+
+<p>In the European Economic Area, the United Kingdom and Switzerland, the app shows Google's consent screen <strong>before</strong> requesting any ad or enabling measurement. The legal basis there is your <strong>consent</strong>, and you can withdraw it at any time — see section 9.</p>
+
+<p>Elsewhere, the legal bases are:</p>
+<ul>
+  <li><strong>Performance of the service</strong> — for what the app needs in order to work: settings stored on the device, displaying the decoration you chose.</li>
+  <li><strong>Legitimate interests</strong> — for aggregate measurement used to find and fix faults, and for ad fraud prevention.</li>
+  <li><strong>Consent</strong> — for personalised advertising, wherever the law requires it.</li>
+</ul>
+
+<p>For users in Vietnam, we process personal data in accordance with <strong>Decree 13/2023/ND-CP</strong> on personal data protection.</p>
+
+<h2>9. Your rights, and how to use them</h2>
+
+<ul>
+  <li><strong>Withdraw consent.</strong> In the app: <strong>Settings → Privacy → Ad settings</strong>. This entry appears in the regions that require it. When you withdraw, the app does three things: stops collecting, tells Google the data may not be used, <strong>and resets the App Instance ID</strong> — so what was sent before can no longer be linked back to your device.</li>
+  <li><strong>Turn off personalised ads and keep using the app.</strong> Android Settings → Google → Ads. You will still see ads, but non-personalised ones.</li>
+  <li><strong>Delete everything on the device.</strong> Android Settings → Apps → Emoji Battery Maker → Storage → Clear data. Or uninstall the app.</li>
+  <li><strong>Access, correct, delete, object, or port your data.</strong> Write to us at the address in section 14. Because the app has no accounts, we usually have no way to find your data by ourselves — if you want us to contact Google on your behalf, include your advertising ID or App Instance ID.</li>
+  <li><strong>Complain.</strong> You have the right to lodge a complaint with the data protection authority where you live.</li>
+</ul>
+
+<p>We reply within 30 days.</p>
+
+<h2>10. Children</h2>
+
+<p>The app is not intended for anyone under 13, and is not designed or marketed towards children. In the European Economic Area, if you are below your country's digital age of consent (13 to 16 depending on the country), please use the app with the consent of your guardian.</p>
+
+<p>We do not knowingly collect children's data. If you believe we have, write to us and we will delete it.</p>
+
+<h2>11. Data retention</h2>
+
+<ul>
+  <li><strong>On your device:</strong> until you clear the app's data or uninstall it.</li>
+  <li><strong>At Google:</strong> per Google Analytics and Google Ads retention. You can review and request deletion through the links in section 5.</li>
+  <li><strong>With us:</strong> nothing, other than emails you send us — we keep those until your request is resolved.</li>
+</ul>
+
+<h2>12. Security</h2>
+
+<ul>
+  <li>All outbound connections use HTTPS. The app blocks unencrypted connections through Android's network security configuration; the only exception is the device's own loopback addresses, used during development — those never leave the device.</li>
+  <li>We hold no user data on any server, so there is no data store of ours that could leak.</li>
+  <li>Your photos and settings live in the app's private area, which other apps cannot read.</li>
+</ul>
+
+<h2>13. Changes to this policy</h2>
+
+<p>We update this page when the app changes. The date at the top is when it was last edited.</p>
+
+<p>If a change <strong>expands</strong> what is collected, we will ask for consent again inside the app, rather than editing this page and treating you as having agreed.</p>
+
+<h2>14. Contact</h2>
+
+<p>Emoji Battery Maker — individual publisher<br>
+<a href="mailto:mctechnologies.global@gmail.com">mctechnologies.global@gmail.com</a></p>
+
+<p><a href="terms.html">Terms of Use →</a></p>
+
+</div>
+
+<footer>
+  <p data-lang="vi">Emoji Battery Maker · <a href="privacy.html">Chính sách bảo mật</a> · <a href="terms.html">Điều khoản sử dụng</a></p>
+  <p data-lang="en">Emoji Battery Maker · <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Use</a></p>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var btns = document.querySelectorAll('.langbar button');
+  function apply(lang) {
+    root.className = lang === 'en' ? 'lang-en' : '';
+    root.lang = lang;
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', b.dataset.set === lang ? 'true' : 'false');
+    });
+    try { localStorage.setItem('lang', lang); } catch (e) {}
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.dataset.set); });
+  });
+  apply(root.className === 'lang-en' ? 'en' : 'vi');
+})();
+</script>
+
+</body>
+</html>
