@@ -1,1 +1,1 @@
-Ưellcome to MCTech Policy
+Wellcome to MCTech Policy
